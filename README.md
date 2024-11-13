@@ -7,3 +7,4 @@ The web app was built in Python using the following libraries:<br>
 - numpy
 - torchvision
 - pillow
+Last updated: Wed Nov 13 16:44:56 UTC 2024
