@@ -1,34 +1,32 @@
 name: Keep Streamlit App Active
 
-# Set the schedule to run every day at a specific time (e.g., 1 AM UTC)
+# Schedule the workflow to run once daily at 1 AM UTC (adjust as needed)
 on:
   schedule:
     - cron: '0 1 * * *'
-  workflow_dispatch:
+  workflow_dispatch: # This allows you to run the workflow manually if needed
 
 jobs:
   keep-active:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Update README
-      run: |
-        # Update the timestamp in the README file to trigger a commit
-        echo "Last updated: $(date)" >> README.md
+      - name: Update README
+        run: |
+          echo "Last updated: $(date)" >> README.md
 
-    - name: Commit changes
-      run: |
-        git config --local user.name "github-actions[bot]"
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git add README.md
-        git commit -m "Keep Streamlit app active"
+      - name: Commit changes
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Keep Streamlit app active $(date)"
 
-    - name: Push changes
-      run: git push
-      env:
-        # This is necessary for pushing changes back to the repo
-        # Ensure that the repository has "actions" permissions set up correctly for this to work
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push
